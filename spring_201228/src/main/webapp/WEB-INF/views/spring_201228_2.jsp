@@ -12,11 +12,11 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<p> ${mav1} </p>
+<%-- <p> ${mav1} </p>
 <p> ${mav2} </p>
 
 <p> ${param.param1} </p>
-<p> ${param.param2} </p>
+<p> ${param.param2} </p> --%>
 <a href="./">home.jsp로 이동</a>
 
 <form action="insert" method="POST">

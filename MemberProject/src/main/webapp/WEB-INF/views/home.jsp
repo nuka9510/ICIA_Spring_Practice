@@ -9,12 +9,7 @@
 <h1>
 	Hello world!  
 </h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-<a href="spring_201228_1">spring_201228_1.jsp로 이동</a>
-<a href="selectDB">DB 조회하기</a>
-<c:if test="${!empty selectDB}">
-	DB 조회 결과 : ${selectDB}
-</c:if>
+<button onclick="location.href='toLogin'">로그인</button>
+<button onclick="location.href='toJoin'">회원가입</button>
 </body>
 </html>

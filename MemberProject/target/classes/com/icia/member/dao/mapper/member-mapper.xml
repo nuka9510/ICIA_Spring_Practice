@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Member"> 
+	<select id="idCheck" resultType="String" parameterType="member">
+		SELECT COUNT(mid)
+		FROM MEMBERTABLE
+		WHERE mid = #{mid}
+	</select>
+	<select id="idpwCheck" resultType="String" parameterType="member">
+		SELECT COUNT(mid)
+		FROM MEMBERTABLE
+		WHERE mid = #{mid} AND mpassword = #{mpassword}
+	</select>
+	<insert id="join" parameterType="member">
+		INSERT INTO MEMBERTABLE(mid, mpassword, mname, mphone, memail, mbirth)
+		VALUES(#{mid}, #{mpassword}, #{mname}, #{mphone}, #{memail}, TO_DATE(#{mbirth}, 'YYYY-MM-DD'))
+	</insert>
+ </mapper>

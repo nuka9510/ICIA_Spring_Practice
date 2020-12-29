@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Test"> 
+	<insert id="insertDB" parameterType="String">
+		INSERT INTO TESTTABLE(COL1)
+		VALUES(#{data1})
+	</insert>
+	<insert id="insertDB_2" parameterType="testDTO">
+		INSERT INTO TESTTABLE2(COL1, COL2)
+		VALUES(#{param1}, #{param2})
+	</insert>
+	<select id="selectDB" resultType="String">
+		SELECT *
+		FROM TESTTABLE
+	</select>
+ </mapper> 
