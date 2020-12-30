@@ -7,11 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="join" method="POST">
+	<form action="memberMod" method="POST">
 		<table>
 			<tr>
 				<th>아이디</th>
-				<td><input type="text" name="mid" required="required"></td>
+				<td><input type="text" name="mid" value="${memberInfo.getMid()}" required="required" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
@@ -19,19 +19,19 @@
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><input type="text" name="mname" required="required"></td>
+				<td><input type="text" name="mname" value="${memberInfo.getMname()}" required="required" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<th>phone</th>
-				<td><input type="text" name="mphone" placeholder="'-'제외" required="required"></td>
+				<td><input type="text" name="mphone" value="${memberInfo.getMphone()}" placeholder="'-'제외" required="required"></td>
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<td><input type="email" name="memail" required="required"></td>
+				<td><input type="email" name="memail" value="${memberInfo.getMemail()}" required="required"></td>
 			</tr>
 			<tr>
 				<th>생년월일</th>
-				<td><input type="date" name="mbirth" required="required"></td>
+				<td><input type="date" name="mbirth" value="${memberInfo.getMbirth()}" required="required" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -40,6 +40,5 @@
 			</tr>
 		</table>
 	</form>
-	<button onclick="location.href='./'">홈으로</button>
 </body>
 </html>

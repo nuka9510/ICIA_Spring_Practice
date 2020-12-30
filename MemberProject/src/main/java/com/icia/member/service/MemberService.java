@@ -1,5 +1,7 @@
 package com.icia.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,22 @@ public class MemberService {
 	}
 
 	public boolean join(MemberDTO dto) {
-		boolean result = dao.join(dto);
-		return result;
+		return dao.join(dto);
+	}
+
+	public List<MemberDTO> memberList() {
+		return dao.memberList();
+	}
+
+	public MemberDTO memberInfo(MemberDTO dto) {
+		return dao.memberInfo(dto);
+	}
+
+	public boolean memberDel(MemberDTO dto) {
+		return dao.memberDel(dto);
+	}
+
+	public boolean memberMod(MemberDTO dto) {
+		return dao.memberMod(dto);
 	}
 }

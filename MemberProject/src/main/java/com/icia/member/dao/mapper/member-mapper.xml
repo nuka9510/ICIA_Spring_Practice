@@ -17,4 +17,29 @@
 		INSERT INTO MEMBERTABLE(mid, mpassword, mname, mphone, memail, mbirth)
 		VALUES(#{mid}, #{mpassword}, #{mname}, #{mphone}, #{memail}, TO_DATE(#{mbirth}, 'YYYY-MM-DD'))
 	</insert>
+	<select id="memberList" resultType="member">
+		SELECT mid,
+			mpassword,
+			mname,
+			mphone,
+			memail,
+			TO_CHAR(mbirth, 'YYYY-MM-DD') AS mbirth
+		FROM MEMBERTABLE
+	</select>
+	<select id="memberInfo" parameterType="member" resultType="member">
+		SELECT mid,
+			mpassword,
+			mname,
+			mphone,
+			memail,
+			TO_CHAR(mbirth, 'YYYY-MM-DD') AS mbirth
+		FROM MEMBERTABLE
+		WHERE mid = #{mid}
+	</select>
+	<delete id="memberDel" parameterType="member">
+		DELETE FROM MEMBERTABLE WHERE mid = #{mid}
+	</delete>
+	<update id="memberMod" parameterType="member">
+		UPDATE MEMBERTABLE SET mpassword = #{mpassword}, mphone = #{mphone}, memail = #{memail} WHERE mid = #{mid}
+	</update>
  </mapper>

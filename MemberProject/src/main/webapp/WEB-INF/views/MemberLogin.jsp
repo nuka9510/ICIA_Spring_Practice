@@ -24,5 +24,6 @@
 			</tr>
 		</table>
 	</form>
+	<button onclick="location.href='./'">홈으로</button>
 </body>
 </html>
