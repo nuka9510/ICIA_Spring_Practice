@@ -54,4 +54,9 @@ public class MemberDAO {
 		result = (sql.update("Member.memberMod", dto)==1)?true:false;
 		return result;
 	}
+
+	public String idDuplicate(MemberDTO dto) {
+		String result = (sql.selectOne("Member.idDuplicate", dto).equals("0"))?"true":"false";
+		return result;
+	}
 }

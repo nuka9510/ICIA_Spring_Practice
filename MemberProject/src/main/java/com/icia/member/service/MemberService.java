@@ -45,4 +45,8 @@ public class MemberService {
 	public boolean memberMod(MemberDTO dto) {
 		return dao.memberMod(dto);
 	}
+
+	public String idDuplicate(MemberDTO dto) {
+		return dao.idDuplicate(dto);
+	}
 }

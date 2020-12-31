@@ -8,15 +8,18 @@
 		FROM MEMBERTABLE
 		WHERE mid = #{mid}
 	</select>
+	
 	<select id="idpwCheck" resultType="String" parameterType="member">
 		SELECT COUNT(mid)
 		FROM MEMBERTABLE
 		WHERE mid = #{mid} AND mpassword = #{mpassword}
 	</select>
+	
 	<insert id="join" parameterType="member">
 		INSERT INTO MEMBERTABLE(mid, mpassword, mname, mphone, memail, mbirth)
 		VALUES(#{mid}, #{mpassword}, #{mname}, #{mphone}, #{memail}, TO_DATE(#{mbirth}, 'YYYY-MM-DD'))
 	</insert>
+	
 	<select id="memberList" resultType="member">
 		SELECT mid,
 			mpassword,
@@ -26,6 +29,7 @@
 			TO_CHAR(mbirth, 'YYYY-MM-DD') AS mbirth
 		FROM MEMBERTABLE
 	</select>
+	
 	<select id="memberInfo" parameterType="member" resultType="member">
 		SELECT mid,
 			mpassword,
@@ -36,10 +40,18 @@
 		FROM MEMBERTABLE
 		WHERE mid = #{mid}
 	</select>
+	
 	<delete id="memberDel" parameterType="member">
 		DELETE FROM MEMBERTABLE WHERE mid = #{mid}
 	</delete>
+	
 	<update id="memberMod" parameterType="member">
 		UPDATE MEMBERTABLE SET mpassword = #{mpassword}, mphone = #{mphone}, memail = #{memail} WHERE mid = #{mid}
 	</update>
+	
+	<select id="idDuplicate" parameterType="member" resultType="String">
+		SELECT COUNT(mid)
+		FROM MEMBERTABLE
+		WHERE mid = #{mid}
+	</select>
  </mapper>
