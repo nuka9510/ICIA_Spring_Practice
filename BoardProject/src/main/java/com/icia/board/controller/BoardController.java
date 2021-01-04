@@ -1,5 +1,7 @@
 package com.icia.board.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.board.dto.BoardDTO;
+import com.icia.board.dto.PageDTO;
 import com.icia.board.service.BoardService;
 
 @Controller
@@ -31,10 +34,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
-	private ModelAndView boardWrite(@ModelAttribute BoardDTO dto) {
+	private ModelAndView boardWrite(@ModelAttribute BoardDTO dto) throws IllegalStateException, IOException {
 		mav();
 		if(service.boardWrite(dto)) {
-			mav.setViewName("redirect:/boardList");
+			mav.setViewName("redirect:/boardList?nowPage=1");
 		}else {
 			mav.setViewName("redirect:/toBoardWrite");
 		}
@@ -42,18 +45,51 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/boardList", method = RequestMethod.GET)
-	private ModelAndView boardList() {
+	private ModelAndView boardList(@ModelAttribute PageDTO pagedto) {
 		mav();
-		mav.addObject("boardList", service.boardList());
+		mav.addObject("boardList", service.boardList(pagedto));
+		mav.addObject("page", pagedto);
 		mav.setViewName("board/BoardList");
 		return mav;
 	}
 	
 	@RequestMapping(value = "/boardView", method = RequestMethod.GET)
-	private ModelAndView boardView(@ModelAttribute BoardDTO dto) {
+	private ModelAndView boardView(@ModelAttribute BoardDTO dto,
+									@ModelAttribute PageDTO pagedto) {
 		mav();
 		mav.addObject("boardView", service.boardView(dto));
+		mav.addObject("page", pagedto);
 		mav.setViewName("board/BoardView");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/toBoardMod", method = RequestMethod.GET)
+	private ModelAndView toBoardMod(@ModelAttribute BoardDTO dto) {
+		mav();
+		mav.addObject("boardInfo", service.boardInfo(dto));
+		mav.setViewName("board/BoardMod");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/boardMod", method = RequestMethod.POST)
+	private ModelAndView boardMod(@ModelAttribute BoardDTO dto) {
+		mav();
+		if(service.boardMod(dto)) {
+			mav.setViewName("redirect:/boardView?bnumber="+dto.getBnumber());
+		}else {
+			mav.setViewName("redirect:/toBoardMod?bnumber="+dto.getBnumber());
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/boardDel", method = RequestMethod.GET)
+	private ModelAndView boardDel(@ModelAttribute BoardDTO dto) {
+		mav();
+		if(service.boardDel(dto)) {
+			mav.setViewName("redirect:/boardList");
+		}else {
+			mav.setViewName("redirect:/boardView?bnumber="+dto.getBnumber());
+		}
 		return mav;
 	}
 }

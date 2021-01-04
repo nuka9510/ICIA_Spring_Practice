@@ -10,6 +10,6 @@
 	Home
 </h1>
 <button onclick="location.href='toBoardWrite'">글쓰기</button>
-<button onclick="location.href='boardList'">글목록</button>
+<button onclick="location.href='boardList?nowPage=1'">글목록</button>
 </body>
 </html>

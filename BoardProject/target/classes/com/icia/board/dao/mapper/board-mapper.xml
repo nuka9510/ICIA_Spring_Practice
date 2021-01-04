@@ -4,17 +4,20 @@
  
  <mapper namespace="Board"> 
 	<insert id="boardWrite" parameterType="board">
-		INSERT INTO BOARDTABLE(bnumber, bwriter, bpassword, btitle, bcontents, bdate, bhits)
-		VALUES(bnumber_seq.NEXTVAL, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0)
+		INSERT INTO BOARDTABLE(bnumber, bwriter, bpassword, btitle, bcontents, bdate, bhits, bfilename)
+		VALUES(bnumber_seq.NEXTVAL, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0, #{bfilename})
 	</insert>
 	
-	<select id="boardList" resultType="board">
-		SELECT bnumber,
-			bwriter,
-			btitle,
-			TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS bdate,
-			bhits
-		FROM BOARDTABLE
+	<select id="boardList" parameterType="page" resultType="board">
+		SELECT *
+		FROM(SELECT ROW_NUMBER() OVER(ORDER BY bnumber DESC) AS RN,
+				bnumber,
+				bwriter,
+				btitle,
+				TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS bdate,
+				bhits
+			FROM BOARDTABLE)
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="boardView" parameterType="board" resultType="board">
@@ -23,8 +26,9 @@
 			bpassword,
 			btitle,
 			bcontents,
-			bdate,
-			bhits
+			TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS bdate,
+			bhits,
+			bfilename
 		FROM BOARDTABLE
 		WHERE bnumber = #{bnumber}
 	</select>
@@ -32,4 +36,17 @@
 	<update id="boardHits" parameterType="board">
 		UPDATE BOARDTABLE SET bhits = bhits+1 WHERE bnumber = #{bnumber}
 	</update>
+	
+	<update id="boardMod" parameterType="board">
+		UPDATE BOARDTABLE SET btitle = #{btitle}, bcontents=#{bcontents} WHERE bnumber=#{bnumber}
+	</update>
+	
+	<delete id="boardDel" parameterType="board">
+		DELETE FROM BOARDTABLE WHERE bnumber = #{bnumber}
+	</delete>
+	
+	<select id="boardListCount" resultType="int">
+		SELECT COUNT(bnumber)
+		FROM BOARDTABLE
+	</select>
  </mapper>

@@ -10,7 +10,7 @@
 	<h1>
 		BoardWrite
 	</h1>
-	<form action="boardWrite" method="POST">
+	<form action="boardWrite" method="POST" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<th>
@@ -42,6 +42,14 @@
 				</th>
 				<td>
 					<textarea rows="10" cols="20" name="bcontents"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					파일
+				</th>
+				<td>
+					<input type="file" name="bfile">
 				</td>
 			</tr>
 		</table>
