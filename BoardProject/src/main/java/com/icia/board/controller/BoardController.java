@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.PageDTO;
+import com.icia.board.dto.SearchDTO;
 import com.icia.board.service.BoardService;
 
 @Controller
@@ -45,9 +46,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/boardList", method = RequestMethod.GET)
-	private ModelAndView boardList(@ModelAttribute PageDTO pagedto) {
+	private ModelAndView boardList(@ModelAttribute PageDTO pagedto,
+									@ModelAttribute SearchDTO searchdto) {
 		mav();
-		mav.addObject("boardList", service.boardList(pagedto));
+		mav.addObject("boardList", service.boardList(pagedto, searchdto));
 		mav.addObject("page", pagedto);
 		mav.setViewName("board/BoardList");
 		return mav;

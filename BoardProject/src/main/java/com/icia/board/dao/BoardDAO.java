@@ -1,6 +1,8 @@
 package com.icia.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.PageDTO;
+import com.icia.board.dto.SearchDTO;
 
 @Repository
 public class BoardDAO {
@@ -21,8 +24,11 @@ public class BoardDAO {
 		return result;
 	}
 
-	public List<BoardDTO> boardList(PageDTO pagedto) {
-		return sql.selectList("Board.boardList", pagedto);
+	public List<BoardDTO> boardList(PageDTO pagedto, SearchDTO searchdto) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", pagedto);
+		map.put("search", searchdto);
+		return sql.selectList("Board.boardList", map);
 	}
 
 	public BoardDTO boardView(BoardDTO dto) {
@@ -49,8 +55,8 @@ public class BoardDAO {
 		return result;
 	}
 
-	public int boardListCount() {
-		return sql.selectOne("Board.boardListCount");
+	public int boardListCount(SearchDTO searchdto) {
+		return sql.selectOne("Board.boardListCount", searchdto);
 	}
 
 }

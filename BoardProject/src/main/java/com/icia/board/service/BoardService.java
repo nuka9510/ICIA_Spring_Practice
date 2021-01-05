@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.icia.board.dao.BoardDAO;
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.PageDTO;
+import com.icia.board.dto.SearchDTO;
 
 @Service
 public class BoardService {
@@ -18,18 +19,21 @@ public class BoardService {
 	private BoardDAO dao;
 	
 	public boolean boardWrite(BoardDTO dto) throws IllegalStateException, IOException {
-		dto.setBfilename(System.currentTimeMillis()+"_"+dto.getBfile().getOriginalFilename());
 		
 		if(!dto.getBfile().isEmpty()) {
+			dto.setBfilename(System.currentTimeMillis()+"_"+dto.getBfile().getOriginalFilename());
 			dto.getBfile().transferTo(new File("D:\\ICIA\\Jong Won\\spring\\BoardProject\\src\\main\\webapp\\resources\\uploadFile\\"+dto.getBfilename()));
+		}else {
+			dto.setBfilename("");
 		}
 
 		return dao.boardWrite(dto);
 	}
 
-	public List<BoardDTO> boardList(PageDTO pagedto) {
-		pagedto.calcPage(dao.boardListCount(), 3, 5);
-		return dao.boardList(pagedto);
+	public List<BoardDTO> boardList(PageDTO pagedto, SearchDTO searchdto) {
+		pagedto.calcPage(dao.boardListCount(searchdto), 3, 5);
+		System.out.println("test");
+		return dao.boardList(pagedto, searchdto);
 	}
 
 	public BoardDTO boardView(BoardDTO dto) {

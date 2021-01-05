@@ -8,7 +8,7 @@
 		VALUES(bnumber_seq.NEXTVAL, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0, #{bfilename})
 	</insert>
 	
-	<select id="boardList" parameterType="page" resultType="board">
+	<select id="boardList" parameterType="java.util.Map" resultType="board">
 		SELECT *
 		FROM(SELECT ROW_NUMBER() OVER(ORDER BY bnumber DESC) AS RN,
 				bnumber,
@@ -16,8 +16,9 @@
 				btitle,
 				TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS bdate,
 				bhits
-			FROM BOARDTABLE)
-		WHERE RN BETWEEN #{start} AND #{end}
+			FROM BOARDTABLE
+			<include refid="searchMap"></include>)
+		WHERE RN BETWEEN #{page.start} AND #{page.end}
 	</select>
 	
 	<select id="boardView" parameterType="board" resultType="board">
@@ -45,8 +46,31 @@
 		DELETE FROM BOARDTABLE WHERE bnumber = #{bnumber}
 	</delete>
 	
-	<select id="boardListCount" resultType="int">
+	<select id="boardListCount" resultType="int" parameterType="search">
 		SELECT COUNT(bnumber)
 		FROM BOARDTABLE
+		<include refid="search"></include>
 	</select>
+	
+	<sql id="search">
+		<choose>
+			<when test="searchType=='searchTitle'">
+				WHERE btitle LIKE '%' || #{searchWord} || '%'
+			</when>
+			<when test="searchType=='searchWriter'">
+				WHERE bwriter LIKE '%' || #{searchWord} || '%'
+			</when>
+		</choose>
+	</sql>
+	
+	<sql id="searchMap">
+		<choose>
+			<when test="search.searchType=='searchTitle'">
+				WHERE btitle LIKE '%' || #{search.searchWord} || '%'
+			</when>
+			<when test="search.searchType=='searchWriter'">
+				WHERE bwriter LIKE '%' || #{search.searchWord} || '%'
+			</when>
+		</choose>
+	</sql>
  </mapper>
