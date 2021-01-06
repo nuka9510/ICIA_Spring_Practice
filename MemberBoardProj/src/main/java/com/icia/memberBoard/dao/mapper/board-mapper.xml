@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Board">
+ 	<select id="boardList" resultType="board">
+ 		SELECT bnumber,
+ 				bwriter,
+ 				btitle,
+ 				TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS "bdate",
+ 				bhits
+ 		FROM BOARDTABLE
+ 		ORDER BY bnumber DESC
+ 	</select>
+ 	
+ 	<insert id="boardWrite" parameterType="board">
+ 		INSERT INTO BOARDTABLE(bnumber, bwriter, bpassword, btitle, bcontents, bdate, bhits, bfilename)
+ 		VALUES(bnumber_seq.NEXTVAL, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0, #{bfilename})
+ 	</insert>
+ 	
+ 	<select id="hitsUpdate" parameterType="board">
+ 		UPDATE BOARDTABLE SET bhits = bhits + 1 WHERE bnumber = #{bnumber}
+ 	</select>
+ 	
+ 	<select id="boardView" parameterType="board" resultType="board">
+ 		SELECT bnumber,
+				bwriter,
+				bpassword,
+				btitle,
+				bcontents,
+				TO_CHAR(bdate, 'YYYY-MM-DD HH24:MI:SS') AS "bdate",
+				bhits,
+				bfilename
+		FROM BOARDTABLE
+		WHERE bnumber = #{bnumber}
+ 	</select>
+ 	
+ 	<delete id="boardDel" parameterType="board">
+ 		DELETE FROM BOARDTABLE WHERE bnumber = #{bnumber}
+ 	</delete>
+ </mapper>

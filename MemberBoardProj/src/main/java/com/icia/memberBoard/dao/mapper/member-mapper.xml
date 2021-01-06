@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Member">
+ 	<select id="signIn" parameterType="member" resultType="String">
+ 		SELECT COUNT(mid)
+ 		FROM MEMBERTABLE
+ 		WHERE mid = #{mid} AND mpassword = #{mpassword}
+ 	</select>
+ 	
+ 	<insert id="signUp" parameterType="member">
+ 		INSERT INTO MEMBERTABLE(mid, mpassword, mname, mphone, memail, mpostcode, maddress, mdetailAddress, mextraAddress, mprofilename)
+ 		VALUES(#{mid}, #{mpassword}, #{mname}, #{mphone}, #{memail}, #{mpostcode}, #{maddress}, #{mdetailAddress}, #{mextraAddress}, #{mprofilename})
+ 	</insert>
+ 	
+ 	<select id="idCheck" parameterType="member" resultType="String">
+ 		SELECT COUNT(mid)
+ 		FROM MEMBERTABLE
+ 		WHERE mid = #{mid}
+ 	</select>
+ 	
+ 	<select id="memberList" resultType="member">
+ 		SELECT mid,
+ 				mname,
+ 				mphone,
+ 				memail
+ 		FROM MEMBERTABLE
+ 	</select>
+ 	
+ 	<select id="memberInfo" parameterType="member" resultType="member">
+ 		SELECT *
+ 		FROM MEMBERTABLE
+ 		WHERE mid = #{mid}
+ 	</select>
+ 	
+ 	<delete id="memberDel" parameterType="member">
+ 		DELETE FROM MEMBERTABLE WHERE mid = #{mid}
+ 	</delete>
+ </mapper>
