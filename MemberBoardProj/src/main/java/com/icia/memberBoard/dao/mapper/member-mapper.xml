@@ -37,4 +37,15 @@
  	<delete id="memberDel" parameterType="member">
  		DELETE FROM MEMBERTABLE WHERE mid = #{mid}
  	</delete>
+ 	
+ 	<update id="memberMod" parameterType="member">
+ 		UPDATE MEMBERTABLE SET mpassword = #{mpassword}, mphone = #{mphone}, memail = #{memail}, mpostcode = #{mpostcode}, maddress = #{maddress}, mdetailAddress = #{mdetailAddress}, mextraAddress = #{mextraAddress}
+		WHERE mid = #{mid}
+ 	</update>
+ 	
+ 	<select id="boardCount" parameterType="member" resultType="int">
+ 		SELECT COUNT(bnumber)
+ 		FROM BOARDTABLE
+ 		WHERE bwriter = #{mid}
+ 	</select>
  </mapper>

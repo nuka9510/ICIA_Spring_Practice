@@ -38,4 +38,12 @@ public class MemberDAO {
 		sql.delete("Member.memberDel", dto);
 	}
 
+	public boolean memberMod(MemberDTO dto) {
+		return (sql.update("Member.memberMod", dto)==1)?true:false;
+	}
+
+	public int boardCount(MemberDTO dto) {
+		return sql.selectOne("Member.boardCount", dto);
+	}
+
 }

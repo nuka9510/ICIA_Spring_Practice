@@ -46,4 +46,12 @@ public class MemberService {
 		dao.memberDel(dto);
 	}
 
+	public boolean memberMod(MemberDTO dto) {
+		return dao.memberMod(dto);
+	}
+
+	public int boardCount(MemberDTO dto) {
+		return dao.boardCount(dto);
+	}
+
 }

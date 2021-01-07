@@ -1,5 +1,6 @@
 var idCheckResult = false;
 var pwCheckResult = false;
+var phoneCheckResult = false;
 
 function idChange(out){
     idCheckResult = false;
@@ -69,7 +70,14 @@ function checkValue(pw, pwCheck){
             if(pw.value != pwCheck.value){
                 alert("비밀번호를 동일하게 입력하세요.");
                 return false;
-            }
+            }else{
+				if(phoneCheckResult){
+					
+				}else{
+					alert("연락처를 형식에 맞춰입력해주세요.");	
+					return false;
+				}
+			}
         }else{
             alert("비밀번호를 형식에 맞춰입력해주세요.");
             return false;
@@ -78,4 +86,13 @@ function checkValue(pw, pwCheck){
         alert("아이디 중복확인을 해주세요.");
         return false;
     }
+}
+
+function phoneCheck(phone, result){
+	var num = /\d{11}/g;
+	if(num.test(phone.value)){
+		phoneCheckResult = true;
+	}else{
+		phoneCheckResult = false;
+	}
 }

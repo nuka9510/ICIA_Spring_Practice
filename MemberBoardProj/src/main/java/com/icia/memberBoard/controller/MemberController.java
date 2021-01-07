@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,37 +30,40 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value = "/signIn", method = RequestMethod.POST)
+	@RequestMapping(value = "/signIn")
 	private ModelAndView signIn(@RequestParam("main") String main,
 								@ModelAttribute MemberDTO dto) {
 		mav();
 		if(service.signIn(dto)) {
 			session.setAttribute("signInId", dto.getMid());
-			mav.setViewName("redirect:/"+main+"?main="+main);
+			if(main.equals("signUp")) {
+				mav.setViewName("redirect:/./");
+			}else {
+				mav.setViewName("redirect:/"+main+"?main="+main);	
+			}
 		}else {
 			mav.setViewName("redirect:/./?main=signIn&from="+main);
 		}
 		return mav;
 	}
 	
-	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	private ModelAndView signUp(@RequestParam("from") String from,
-								@ModelAttribute MemberDTO dto) throws IllegalStateException, IOException {
+	@RequestMapping(value = "/signUp")
+	private ModelAndView signUp(@ModelAttribute MemberDTO dto) throws IllegalStateException, IOException {
 		mav();
 		if(service.signUp(dto)) {
-			mav.setViewName("home");
+			mav.setViewName("redirect:/./?main=signIn");
 		}else {
-			mav.setViewName("redirect:/./?main=signUp&from="+from);
+			mav.setViewName("redirect:/./?main=signUp");
 		}
 		return mav;
 	}
 	
-	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "/idCheck")
 	private @ResponseBody String idCheck(@ModelAttribute MemberDTO dto) {
 		return service.idCheck(dto);
 	}
 	
-	@RequestMapping(value = "/signOut", method = RequestMethod.GET)
+	@RequestMapping(value = "/signOut")
 	private ModelAndView signOut() {
 		mav();
 		session.invalidate();
@@ -69,7 +71,7 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberList")
 	private ModelAndView memberList() {
 		mav();
 		mav.addObject("memberList", service.memberList());
@@ -77,20 +79,40 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/memberInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberInfo")
 	private ModelAndView memberInfo(@ModelAttribute MemberDTO dto) {
+		mav();
+		mav.addObject("memberInfo", service.memberInfo(dto));
+		mav.addObject("boardCount", service.boardCount(dto));
+		mav.setViewName("home");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/memberDel")
+	private ModelAndView memberDel(@RequestParam("main") String main,
+									@ModelAttribute MemberDTO dto) {
+		mav();
+		service.memberDel(dto);
+		mav.setViewName("redirect:/memberList?main="+main);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/toMemberMod")
+	private ModelAndView toMemberMod(@ModelAttribute MemberDTO dto) {
 		mav();
 		mav.addObject("memberInfo", service.memberInfo(dto));
 		mav.setViewName("home");
 		return mav;
 	}
 	
-	@RequestMapping(value = "/memberDel", method = RequestMethod.GET)
-	private ModelAndView memberDel(@RequestParam("main") String main,
-									@ModelAttribute MemberDTO dto) {
+	@RequestMapping(value = "/memberMod")
+	private ModelAndView memberMod(@ModelAttribute MemberDTO dto) {
 		mav();
-		service.memberDel(dto);
-		mav.setViewName("redirect:/memberList?main="+main);
+		if(service.memberMod(dto)) {
+			mav.setViewName("home");
+		}else {
+			mav.setViewName("redirect:/toMemberMod?main=memberMod&mid="+dto.getMid());
+		}
 		return mav;
 	}
 }

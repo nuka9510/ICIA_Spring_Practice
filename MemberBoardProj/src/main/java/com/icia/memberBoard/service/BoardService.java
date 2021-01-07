@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.icia.memberBoard.dao.BoardDAO;
 import com.icia.memberBoard.dto.BoardDTO;
+import com.icia.memberBoard.dto.PageDTO;
+import com.icia.memberBoard.dto.SearchDTO;
 
 @Service
 public class BoardService {
@@ -16,8 +18,9 @@ public class BoardService {
 	@Autowired
 	private BoardDAO dao;
 	
-	public List<BoardDTO> boardList() {
-		return dao.boardList();
+	public List<BoardDTO> boardList(PageDTO pdto, SearchDTO sdto) {
+		pdto.calcPage(dao.boardListCount(sdto), 5, 10);
+		return dao.boardList(pdto, sdto);
 	}
 
 	public boolean boardWrite(BoardDTO dto) throws IllegalStateException, IOException {
@@ -36,6 +39,14 @@ public class BoardService {
 
 	public boolean boardDel(BoardDTO dto) {
 		return dao.boardDel(dto);
+	}
+
+	public boolean boardMod(BoardDTO dto) {
+		return dao.boardMod(dto);
+	}
+
+	public BoardDTO boardInfo(BoardDTO dto) {
+		return dao.boardInfo(dto);
 	}
 
 }

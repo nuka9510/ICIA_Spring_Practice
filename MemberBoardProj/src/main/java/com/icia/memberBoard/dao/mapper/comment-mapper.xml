@@ -3,4 +3,19 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="Comment">
+ 	<insert id="commentWrite" parameterType="comment">
+ 		INSERT INTO COMMENTTABLE(cnumber, cbnumber, cwriter, ccontents)
+ 		VALUES(cnumber_seq.NEXTVAL, #{cbnumber}, #{cwriter}, #{ccontents})
+ 	</insert>
+ 	
+ 	<select id="commentList" resultType="comment" parameterType="comment">
+ 		SELECT *
+ 		FROM COMMENTTABLE
+ 		WHERE cbnumber = #{cbnumber}
+ 		ORDER BY cnumber DESC
+ 	</select>
+ 	
+ 	<delete id="commentDel" parameterType="comment">
+ 		DELETE FROM COMMENTTABLE WHERE cnumber = #{cnumber}
+ 	</delete>
  </mapper>
