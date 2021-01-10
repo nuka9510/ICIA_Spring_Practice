@@ -35,7 +35,7 @@
 		<c:forEach items="${boardList}" var="i">
 			<tr>
 				<td>${i.getBnumber()}</td>
-				<td><a href="boardView?main=boardView&bnumber=${i.getBnumber()}&nowPage=${page.getNowPage()}">${i.getBtitle()}</a></td>
+				<td><a href="boardView?main=boardView&bnumber=${i.getBnumber()}&nowPage=${page.getNowPage()}&searchOrder=${search.getSearchOrder()}&searchType=${search.getSearchType()}&searchWord=${search.getSearchWord()}">${i.getBtitle()}</a></td>
 				<td><a class="text-dark" href="memberInfo?main=memberInfo&mid=${i.getBwriter()}">${i.getBwriter()}</a></td>
 				<td>${i.getBdate()}</td>
 				<td>${i.getBhits()}</td>

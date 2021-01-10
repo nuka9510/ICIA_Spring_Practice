@@ -32,7 +32,7 @@
 			</table>
 		</div>
 		<div class="container justify-content-center">
-			<button class="btn btn-primary btn-md" onclick="location.href='boardList?main=boardList&nowPage=${param.nowPage}'">글목록</button>
+			<button class="btn btn-primary btn-md" onclick="location.href='boardList?main=boardList&nowPage=${param.nowPage}&searchOrder=${param.searchOrder}&searchType=${param.searchType}&searchWord=${param.searchWord}'">글목록</button>
 			<c:if test="${boardView.getBwriter() eq sessionScope.signInId}">
 				<button class="btn btn-primary btn-md" onclick="location.href='toBoardMod?main=boardMod&bnumber=${boardView.getBnumber()}&nowPage=${param.nowPage}'">글수정</button>
 			</c:if>
